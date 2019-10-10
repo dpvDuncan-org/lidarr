@@ -14,20 +14,24 @@ FROM ${BASE_IMAGE_PREFIX}alpine
 ARG ARCH
 COPY qemu-${ARCH}-static /usr/bin
 
-RUN apk update && apk upgrade
+RUN apk update && apk upgrade && \
+    apk add --no-cache mono chromaprint --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
+    apk add --no-cache mediainfo && \
+    apk add --no-cache --virtual=.build-dependencies ca-certificates curl jq && \
+    cert-sync /etc/ssl/certs/ca-certificates.crt && \
+    mkdir -p /opt/lidarr && \
+    LIDARR_RELEASE=$(curl -sX GET "https://api.github.com/repos/lidarr/Lidarr/releases" | \
+            jq -r '.[0] | .tag_name') && \
+    lidarr_url=$(curl -s https://api.github.com/repos/lidarr/Lidarr/releases/tags/"${LIDARR_RELEASE}" | \
+            jq -r '.assets[].browser_download_url' | grep linux) && \
+    curl -o /tmp/lidar.tar.gz -L "${lidarr_url}" && \
+    tar xzvf /tmp/lidar.tar.gz -C /opt/lidarr --strip-components=1 && \
+    rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* && \
+    chmod 777 /opt/lidarr -R && \
+    apk del .build-dependencies
 
 # ports and volumes
-EXPOSE 0
+EXPOSE 8686
 VOLUME /config
 
-CMD [""]
-
-# annotation labels according to
-# https://github.com/opencontainers/image-spec/blob/v1.0.1/annotations.md#pre-defined-annotation-keys
-LABEL org.opencontainers.image.title=""
-LABEL org.opencontainers.image.description=""
-LABEL org.opencontainers.image.url="https://github.com/dpvDuncan/"
-LABEL org.opencontainers.image.documentation="https://github.com/dpvDuncan/#readme"
-LABEL org.opencontainers.image.version=""
-LABEL org.opencontainers.image.licenses=""
-LABEL org.opencontainers.image.authors="dpvDuncan"
+CMD ["mono", "/opt/lidarr/Lidarr.exe", "-nobrowser", "-data=/config"]
