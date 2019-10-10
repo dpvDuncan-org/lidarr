@@ -18,7 +18,6 @@ RUN apk update && apk upgrade && \
     apk add --no-cache mono chromaprint --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
     apk add --no-cache mediainfo && \
     apk add --no-cache --virtual=.build-dependencies ca-certificates curl jq && \
-    cert-sync /etc/ssl/certs/ca-certificates.crt && \
     mkdir -p /opt/lidarr && \
     LIDARR_RELEASE=$(curl -sX GET "https://api.github.com/repos/lidarr/Lidarr/releases" | \
             jq -r '.[0] | .tag_name') && \
