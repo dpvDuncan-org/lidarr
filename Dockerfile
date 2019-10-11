@@ -24,7 +24,7 @@ RUN apk update && apk upgrade && \
     lidarr_url=$(curl -s https://api.github.com/repos/lidarr/Lidarr/releases/tags/"${LIDARR_RELEASE}" | \
             jq -r '.assets[].browser_download_url' | grep linux) && \
     curl -o /tmp/lidar.tar.gz -L "${lidarr_url}" && \
-    tar xzvf /tmp/lidar.tar.gz -C /opt/lidarr --strip-components=1 && \
+    tar xf /tmp/lidar.tar.gz -C /opt/lidarr --strip-components=1 && \
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* && \
     chmod 777 /opt/lidarr -R && \
     apk del .build-dependencies
