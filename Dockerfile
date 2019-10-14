@@ -23,6 +23,7 @@ RUN apk update && apk upgrade && \
             jq -r '.[0] | .tag_name') && \
     lidarr_url=$(curl -s https://api.github.com/repos/lidarr/Lidarr/releases/tags/"${LIDARR_RELEASE}" | \
             jq -r '.assets[].browser_download_url' | grep linux) && \
+    mkdir /opt/lidarr && \
     curl -o - -L "${lidarr_url}" | tar x -C /opt/lidarr --strip-components=1 && \
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* && \
     chmod 777 /opt/lidarr -R && \
