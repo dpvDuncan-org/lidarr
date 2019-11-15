@@ -18,10 +18,10 @@ RUN apk -U --no-cache upgrade
 RUN apk add --no-cache mono chromaprint --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing
 RUN apk add --no-cache mediainfo
 RUN apk add --no-cache --virtual=.build-dependencies ca-certificates curl
-RUN mkdir -p /opt/lidarr
+RUN mkdir -p /opt/lidarr /config
 RUN curl -o - -L "${lidarr_url}" | tar xz -C /opt/lidarr --strip-components=1
-RUN chmod 777 /opt/lidarr -R && \
 RUN apk del .build-dependencies
+RUN chmod -R 777 /opt/lidarr /starts.sh
 
 RUN rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* /usr/bin/qemu-*-static
 
