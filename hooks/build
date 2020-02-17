@@ -16,9 +16,8 @@ for arch in ${build_architectures[@]}; do
 
   docker exec docker_daemon docker build \
     --squash \
-    --platform=${arch} \
+    --platform=${docker_arch_map[${arch}]} \
     --build-arg BASE_IMAGE_PREFIX=${base_image_prefix_map[${arch}]} \
-    --build-arg ARCH=${arch} \
     --build-arg LIDARR_RELEASE=${LIDARR_RELEASE} \
     --build-arg lidarr_url=${lidarr_url} \
     --file /build/$DOCKERFILE_PATH \
