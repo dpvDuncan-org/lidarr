@@ -16,4 +16,4 @@ then
         USERNAME=lidarr
 fi
 
-su -g $GROUPNAME $USERNAME -c 'mono /opt/lidarr/Lidarr.exe -nobrowser -data=/config'
+su $USERNAME -c 'mono /opt/lidarr/Lidarr.exe -nobrowser -data=/config'
