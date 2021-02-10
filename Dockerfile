@@ -15,8 +15,8 @@ COPY --from=qemu /usr/bin/qemu-*-static /usr/bin/
 COPY scripts/start.sh /
 
 RUN apk -U --no-cache upgrade
-RUN apk add --no-cache chromaprint --repository http://dl-cdn.alpinelinux.org/alpine/edge/community
-RUN apk add --no-cache mono --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing
+# RUN apk add --no-cache chromaprint --repository http://dl-cdn.alpinelinux.org/alpine/edge/community
+# RUN apk add --no-cache mono --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing
 RUN apk add --no-cache libmediainfo icu-libs libintl sqlite-libs ca-certificates curl
 RUN mkdir -p /opt/lidarr /config
 RUN curl -o - -L "${lidarr_url}" | tar xz -C /opt/lidarr --strip-components=1
