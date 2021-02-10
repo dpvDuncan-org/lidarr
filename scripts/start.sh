@@ -16,4 +16,4 @@ then
         USERNAME=lidarr
 fi
 
-su $USERNAME -c '/opt/lidarr/Lidarr.exe -nobrowser -data=/config'
+su $USERNAME -c '/opt/lidarr/Lidarr -nobrowser -data=/config'
