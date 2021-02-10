@@ -7,13 +7,12 @@ source hooks/.config
 echo "✅ Will build the following architectures: $(IFS=, ; echo "${build_architectures[@]}")"
 echo "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
 
-LIDARR_RELEASE=$(curl -sX GET "https://api.github.com/repos/lidarr/Lidarr/releases" | jq -r '.[0] | .tag_name')
-
 for arch in ${build_architectures[@]}; do
   echo "✅ building $arch"
   echo "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
 
-  LIDARR_ARCH=${jackett_arch_map[${arch}]}
+  LIDARR_ARCH=${lidarr_arch_map[${arch}]}
+  LIDARR_RELEASE=$(curl -sX GET "https://api.github.com/repos/lidarr/Lidarr/releases" | jq -r '.[0] | .tag_name')
   lidarr_url=$(curl -s https://api.github.com/repos/lidarr/Lidarr/releases/tags/"${LIDARR_RELEASE}" | jq -r '.assets[].browser_download_url' | grep linux-musl-core-${LIDARR_ARCH})
 
   docker exec docker_daemon docker build \
