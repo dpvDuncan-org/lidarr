@@ -36,7 +36,7 @@ jobs:
 
     - name: Prepare variables
       run: |
-        LIDARR_RELEASE=$(curl -sL "https://lidarr.servarr.com/v1/update/nightly/changes?os=linuxmusl&runtime=netcore" | jq -r '.version')
+        LIDARR_RELEASE=$(curl -sL "https://lidarr.servarr.com/v1/update/nightly/changes?os=linuxmusl&runtime=netcore" | jq -r '.[0] | .version)
         lidarr_url="https://lidarr.servarr.com/v1/update/nightly/updatefile?os=linuxmusl&runtime=netcore"
         echo "LIDARR_RELEASE=${LIDARR_RELEASE}" >> ${GITHUB_ENV}
         echo "lidarr_url=${lidarr_url}" >> ${GITHUB_ENV}
